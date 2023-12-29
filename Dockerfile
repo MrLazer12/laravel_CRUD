@@ -1,40 +1,23 @@
-# Use the official PHP image as the base image
-FROM php:7.4-fpm
+FROM php:8.1-fpm
 
-# Set the working directory in the container
+# Install Composer
+RUN apt-get update && apt-get install -y composer
+
+# Set the working directory
 WORKDIR /var/www/html
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip
+# Copy the application files
+COPY . /var/www/html
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd
+# Install dependencies with Composer
+RUN composer install
 
-# Install Composer globally
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Expose port 80
+EXPOSE 80
 
-# Copy only the composer files and install dependencies
-COPY composer.json composer.lock ./
-RUN composer install --no-scripts --no-autoloader
+# Run migrations and seed the database
+RUN composer install
+RUN php artisan migrate --seed
 
-# Copy the rest of the application code
-COPY . .
-
-# Generate the Laravel application key
-RUN php artisan key:generate
-
-# Set permissions for Laravel
-RUN chown -R www-data:www-data storage bootstrap/cache
-
-# Expose port 9000 for the PHP-FPM service
-EXPOSE 9000
-
-# Start PHP-FPM
-CMD ["php-fpm"]
+# Start the PHP development server
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
