@@ -2,7 +2,8 @@
 
 <h1>Simple CRUD app with PHP laravel</h1>
 <h3>To start app run following commands</h3>
-<code>docker-compose up                                                   
+<code>                                                                    
+      docker-compose up                                                   
       docker-compose exec app composer install                            
       docker-compose exec app php artisan migrate --seed                  
       docker-compose exec app php artisan serve --host=0.0.0.0 --port=8000
