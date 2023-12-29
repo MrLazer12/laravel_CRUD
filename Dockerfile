@@ -1,23 +1,23 @@
 FROM php:8.1-fpm
 
-# Install Composer
-RUN apt-get update && apt-get install -y composer
+# Instalează Composer la o anumită versiune
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.1.5
 
-# Set the working directory
+# Setează directorul de lucru
 WORKDIR /var/www/html
 
-# Copy the application files
+# Copiază fișierele aplicației
 COPY . /var/www/html
 
-# Install dependencies with Composer
+# Instalarea pachetelor necesare pentru proiect
+RUN composer update
 RUN composer install
 
-# Expose port 80
-EXPOSE 80
-
-# Run migrations and seed the database
-RUN composer install
+# Rulează migrările și populează baza de date
 RUN php artisan migrate --seed
 
-# Start the PHP development server
+# Expose portul 8000
+EXPOSE 8000
+
+# Porneste serverul
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
