@@ -34,14 +34,30 @@ return [
     | Supported: "session"
     |
     */
-
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'admins',
+        ],
+    
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'administrators',
         ],
     ],
-
+    
+    'providers' => [
+        'admins' => [ // Change 'administrators' to 'admins'
+            'driver' => 'eloquent',
+            'model' => App\Models\Administrator::class,
+        ],
+    
+        'administrators' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Administrator::class,
+        ],
+    ],
+    
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -58,18 +74,6 @@ return [
     | Supported: "database", "eloquent"
     |
     */
-
-    'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
-        ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
-    ],
 
     /*
     |--------------------------------------------------------------------------

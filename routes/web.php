@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\AuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,6 +16,13 @@ use App\Http\Controllers\UsersController;
 Route::get('/', function () {
     return view('login');
 });
+
+Route::middleware('auth:api')->group(function () {
+    Route::post('logout', [AuthController::class, 'logout']);
+});
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
 Route::get('/crud', [UsersController::class, 'getAllUsers'])->name('users.getAllUsers');
 Route::post('/users', [UsersController::class, 'store'])->name('users.store');
 Route::get('/users/{id}/edit', [UsersController::class, 'getUserData'])->name('users.getUserData');
