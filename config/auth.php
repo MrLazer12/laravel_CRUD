@@ -37,7 +37,7 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'administrators',
         ],
     
         'api' => [
@@ -47,15 +47,10 @@ return [
     ],
     
     'providers' => [
-        'admins' => [ // Change 'administrators' to 'admins'
-            'driver' => 'eloquent',
-            'model' => App\Models\Administrator::class,
-        ],
-    
         'administrators' => [
             'driver' => 'eloquent',
             'model' => App\Models\Administrator::class,
-        ],
+        ]
     ],
     
     /*

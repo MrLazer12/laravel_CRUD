@@ -14,11 +14,17 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        // Insert default admin account
+        // Insert admin accaunt
         DB::table('administrators')->insert([
             'username' => 'admin',
             'password' => Hash::make('admin123'),
             'role' => 'admin',
+        ]);
+        // Insert simple user accaunt
+        DB::table('administrators')->insert([
+            'username' => 'user1',
+            'password' => Hash::make('user1'),
+            'role' => 'user',
         ]);
     }
 }

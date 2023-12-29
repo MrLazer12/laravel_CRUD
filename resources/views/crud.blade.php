@@ -9,18 +9,22 @@
 
     <!-- Fonts -->
     <link href="{{ asset('lib/bootsrap/css/bootsrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('lib/font-awesome/bootstrap-combined.no-icons.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/main.css') }}" rel="stylesheet" />
     <script src="{{ asset('lib/jquery/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('lib/bootsrap/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('lib/popper.min.js') }}"></script>
+    <style>
+        code {
+            color: red !important;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark d-flex justify-content-between">
         <a class="navbar-brand" href="#">CRUD</a>
-
-        <div class="collapse navbar-collapse" id="navbarColor01">
+        <!-- <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
@@ -29,9 +33,9 @@
                     <a class="nav-link" href="#">Manage Users</a>
                 </li>
             </ul>
-        </div>
+        </div> -->
 
-        <a class="navbar-brand" href="#">Admin Admin</a>
+        <a class="navbar-brand" href="#">Username: {{ session('username') }} <code>{{ session('role') }} </code></a>
     </nav>
 
     <div class="container-xl">
@@ -42,9 +46,13 @@
                         <div class="col-sm-6">
                             <h2><b>Users</b></h2>
                         </div>
+                        @if(session()->has('role') && session('role') === 'admin')
                         <div class="col-sm-6">
-                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"> <span>Add New Employee</span></a>
+                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal">
+                                <span>Add New Employee</span>
+                            </a>
                         </div>
+                        @endif
                     </div>
                 </div>
                 <table class="table table-striped table-hover">
@@ -54,22 +62,30 @@
                             <th>Email</th>
                             <th>Address</th>
                             <th>Phone</th>
+                            @if(session()->has('role') && session('role') === 'admin')
                             <th>Actions</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($users as $user)
+                        @forelse($users as $user)
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->address }}</td>
                             <td>{{ $user->phone }}</td>
+                            @if(session()->has('role') && session('role') === 'admin')
                             <td>
                                 <a href="#editEmployeeModal" class="edit" data-toggle="modal">Edit</a>
                                 <a href="#deleteEmployeeModal" class="delete" data-toggle="modal">Delete</a>
                             </td>
+                            @endif
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center">0 results</td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
@@ -112,6 +128,7 @@
         </div>
     </div>
     <!-- Edit Modal HTML -->
+    @if(isset($user))
     <div id="editEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -152,7 +169,9 @@
             </div>
         </div>
     </div>
+    @endif
 
+    @if(isset($user))
     <!-- Delete Modal HTML -->
     <div id="deleteEmployeeModal" class="modal fade" style="display: none;" aria-hidden="true">
         <div class="modal-dialog">
@@ -176,7 +195,33 @@
             </div>
         </div>
     </div>
+    @endif
 
+    @if(session('token'))
+    <script>
+        localStorage.setItem('token', '{{ session('token') }}');
+        window.location.href = '/crud';
+    </script>
+    @endif
+    <script>
+        function decodeJWT(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            return JSON.parse(jsonPayload);
+        }
+
+        const storedToken = localStorage.getItem('token');
+
+        if (storedToken) {
+            const decodedToken = decodeJWT(storedToken);
+
+            console.log(decodedToken);
+        }
+    </script>
 </body>
 
 </html>
