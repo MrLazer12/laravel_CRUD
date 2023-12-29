@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
@@ -35,7 +34,7 @@
             </ul>
         </div> -->
 
-        <a class="navbar-brand" href="#">Username: {{ session('username') }} <code>{{ session('role') }} </code></a>
+        <a class="navbar-brand" href="#">Username: {{ session('username') }} <code>role: {{ session('role') }} </code></a>
     </nav>
 
     <div class="container-xl">
