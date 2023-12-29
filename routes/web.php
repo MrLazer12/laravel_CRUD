@@ -12,9 +12,9 @@ use App\Http\Controllers\UsersController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Route::get('/', function () {
-//     return view('crud');
-// });
+Route::get('/', function () {
+    return view('login');
+});
 Route::get('/crud', [UsersController::class, 'getAllUsers'])->name('users.getAllUsers');
 Route::post('/users', [UsersController::class, 'store'])->name('users.store');
 Route::get('/users/{id}/edit', [UsersController::class, 'getUserData'])->name('users.getUserData');

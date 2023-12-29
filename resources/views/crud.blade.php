@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>CRUD</title>
 
     <!-- Fonts -->
     <link href="{{ asset('lib/bootsrap/css/bootsrap.min.css') }}" rel="stylesheet" />
@@ -43,10 +43,7 @@
                             <h2><b>Employees</b></h2>
                         </div>
                         <div class="col-sm-6">
-                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"> <span>Add New
-                                    Employee</span></a>
-                            <a href="#deleteEmployeeModal" class="btn btn-danger"
-                                data-toggle="modal"><span>Delete</span></a>
+                            <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal"> <span>Add New Employee</span></a>
                         </div>
                     </div>
                 </div>
