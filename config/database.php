@@ -36,8 +36,8 @@ return [
     'connections' => [
         'postgresdb' => [
             'driver' => 'pgsql',
-            'host' => env('DB_HOST', 'Black-Lagoon'),
-            'port' => env('DB_PORT', '6543'), // Change this line to 6543
+            'host' => env('DB_HOST', 'db'),
+            'port' => env('DB_PORT', '6543'),
             'database' => env('DB_DATABASE', 'postgress'),
             'username' => env('DB_USERNAME', 'postgress'),
             'password' => env('DB_PASSWORD', 'postgress'),
