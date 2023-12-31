@@ -24,13 +24,13 @@ class UsersController extends Controller
 
         Users::create($data);
 
-        return redirect()->back()->with('success', 'Employee added successfully!');
+        return redirect()->back()->with('success', 'User added successfully!');
     }
     public function getUserData($id)
     {
         $user = Users::find($id);
 
-        return view('edit', ['user' => $user]);
+        return response()->json(['user' => $user]);
     }
 
     public function update(Request $request, $id)
@@ -44,7 +44,7 @@ class UsersController extends Controller
             'phone' => $request->input('phone'),
         ]);
 
-        return redirect('/crud')->with('success', 'Employee updated successfully');
+        return response()->json(['message' => 'User updated successfully']);
     }
     public function delete($id)
     {
