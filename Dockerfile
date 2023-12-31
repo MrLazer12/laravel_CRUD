@@ -1,35 +1,31 @@
-# Stage 1: PHP and Composer
-FROM php:8.1-fpm as php_stage
+FROM php:8.2.11-fpm
 
-# Install necessary dependencies and Composer
-RUN apt-get update \
-    && apt-get install -y git curl libpng-dev libonig-dev libxml2-dev zip unzip zlib1g-dev libpq-dev libzip-dev \
+RUN apt-get update
+
+# Install useful tools
+RUN apt-get -y install apt-utils nano wget dialog vim
+
+# Install important libraries
+RUN apt-get -y install --fix-missing \
+    apt-utils build-essential git curl libcurl4 libcurl4-openssl-dev zlib1g-dev libzip-dev zip \
+    libbz2-dev locales libmcrypt-dev libicu-dev libonig-dev libxml2-dev
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.2.0
+
+# Install Postgre PDO
+RUN apt-get install -y libpq-dev \
+    && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+    && docker-php-ext-install pdo pdo_pgsql pgsql \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer --version=2.2.0
 
 # Set the working directory
-WORKDIR /var/www/html
+WORKDIR /var/www
 
 # Copy the application files
-COPY . /var/www/html
+COPY . /var/www
 
-# Install Composer dependencies
 RUN composer update \
     && composer install
 
-# Stage 2: PostgreSQL (using official PostgreSQL image)
-FROM postgres:latest as postgres_stage
-
-# Set permissions on the PostgreSQL data directory
-RUN chmod -R 700 /var/lib/postgresql/data
-
-# Final Stage
-FROM php_stage
-
-# Set the working directory
-WORKDIR /var/www/html
-
-# Expose port 8000
-EXPOSE 8000
-
-# Start the PHP server
-CMD ["php", "artisan", "serve"]
+RUN chmod -R 777 /var/www
