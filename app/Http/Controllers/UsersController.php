@@ -44,7 +44,7 @@ class UsersController extends Controller
             'phone' => $request->input('phone'),
         ]);
 
-        return response()->json(['message' => 'User updated successfully']);
+        return redirect('/crud')->with('success', 'User updated successfully');
     }
     public function delete($id)
     {
