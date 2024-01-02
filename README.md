@@ -4,7 +4,7 @@
 <h3>To start app run following commands</h3>
 <code>                                                                    
       docker-compose up                                                   
-      docker-compose exec app php artisan migrate --seed                  
+      docker-compose exec laravel-app php artisan migrate --seed                  
 </code>
 
 ## License
