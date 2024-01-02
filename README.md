@@ -2,6 +2,18 @@
 
 <h1>Simple CRUD app with PHP laravel</h1>
 <h3>To start app run following commands</h3>
+<h3>Accaunt with admin role</h3>
+<ul>
+    <li>Login: admin</li>
+    <li>password: admin123</li>
+</ul>
+<h3>Accaunt with user role</h3>
+<ul>
+    <li>Login: user1</li>
+    <li>password: user1</li>
+</ul>
+
+<h3>To start app run following commands</h3>
 <code>                                                                    
       docker-compose up                                                   
       docker-compose exec laravel-app php artisan migrate --seed                  
