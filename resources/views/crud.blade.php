@@ -104,7 +104,8 @@
                                             value="{{ $user->phone }}">
                                     </div>
                                     <div>
-                                        <button type="button" class="btn btn-default" onclick="hideEditForm('{{ $user->id }}')">Cancel</button>
+                                        <button type="button" class="btn btn-default"
+                                            onclick="hideEditForm('{{ $user->id }}')">Cancel</button>
                                         <button type="submit" class="btn btn-info">Save</button>
                                     </div>
                                 </form>
@@ -168,7 +169,6 @@
     @if(session('token'))
     <script>
         localStorage.setItem('token', '{{ session('token') }}');
-        window.location.href = '/crud';
     </script>
     @endif
     <script>
@@ -178,6 +178,9 @@
 
         function hideEditForm(userId) {
             $('#editForm' + userId).hide();
+        }
+        function getToken() {
+            return localStorage.getItem('token');
         }
     </script>
 </body>
