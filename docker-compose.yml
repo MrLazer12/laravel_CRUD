@@ -27,9 +27,10 @@ services:
 
   app:
     container_name: laravel-app
-    build: 
-      context: .
-      dockerfile: Dockerfile
+    # build: 
+    #   context: .
+    #   dockerfile: Dockerfile
+    image: 0innominate0/laravel_crud:v1
     ports:
       - "9000:8000"
     environment:
